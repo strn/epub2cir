@@ -12,7 +12,22 @@ from optparse import OptionParser
 HELPTEXT = """
 Program se koristi na sledeci nacin:
            
-	   tl.py -t tip_prevoda -d datoteka_u_utf-8_kodu
+uniconv.py  -i <ul_dat> -o <izl_dat> -u <ul_kod> -e <izl_kod>
+            -t <tip_dok> [-f] -d <smer> [-b]
+
+gde su:
+
+<ul_dat>    Ulazna datoteka koja se pretvara
+<izl_dat>   Izlazna datoteka u koju ce biti upisan rezultat pretvaranja
+<ul_kod>    Ulazni kodni raspored
+<izl_kod>   Izlazni kodni raspored
+<tip_dok>   Tip dokumenta (TXT, XML ili HTML)
+<smer>      Smer pretvaranja: luc = latinica-u-cirilicu,
+            cul = cirilica-u-latinicu
+ 
+-f          Nasilno prepisivanje izlazne datoteke, ukoliko ona postoji
+-b          Pretvaranje teksts u posebnim tag-ovima, koji se mogu naci
+            u EPUB datotekama
 """
 
 LATLISTS = {
@@ -151,8 +166,6 @@ if __name__ == "__main__":
 					elem.tail = compDict.sub(lambda m:convDict[m.group()], elem.tail)
 			if elem.tag in ADD_IF_MISSING_ATTRS:
 				for (attr, values) in ADD_IF_MISSING_ATTRS.items():
-					#print "attr=%s, val=%s" % (attr, values)
-					#print dir(elem), elem.attrib
 					for val in values:
 						if val[0] not in elem.attrib.keys():
 							#print 'Elementu %s nedostaje %s' % (elem.tag, attr)
@@ -174,7 +187,6 @@ if __name__ == "__main__":
 		for elem in tree.getiterator():
 			if options.ebook:
 				# Remove namespace
-				#print elem.tag
 				leftbr = elem.tag.find('{')
 				rightbr = elem.tag.find('}')
 				if leftbr > -1 and rightbr > -1 and rightbr > leftbr:
