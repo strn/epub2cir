@@ -1,18 +1,26 @@
 #!/bin/sh
 
-# Prepares ebook for translation
-# Input: epub file
+# Zavrsava obradu EPUB datoteke
+# Ulazni parametar 1: Ime EPUB datoteke
 
 if [ $# -eq 0 ]; then
 	echo Morate zadati naslov elektronske knjige
 	exit 1
 fi
 
-# Set to 1 if validation with "epubcheck" is desired
+# Postaviti na "1" ako se zeli provera novo-kreirane EPUB datoteke, inace 0
 EPUBCHECK_VALIDATE=1
+
+# Verzija programa EPUB
 EPUBCHECK_VERSION=3.0.1
+
+# Lokacija Epubcheck JAR datoteke (podesiti za vas sistem)
+EPUB_PATH=/opt/app/epubcheck-${EPUBCHECK_VERSION}/epubcheck-${EPUBCHECK_VERSION}.jar
+
+# Uzeti parametar
 EBOOK_NAME=$1
 EBOOK_BASENAME=`basename "${EBOOK_NAME}" .epub`
+# "Normalizovati" ime e-knjige pretvaranjem svih slova u mala i uklanjanjem svih razmaka i interpunkcijskih znakova
 EBOOK_CLEAN_NAME=`echo "$EBOOK_BASENAME" | tr [[:upper:]] [[:lower:]] | tr [[:punct:]] '-' | tr [[:blank:]] '-' | tr -s '-'`-sr
 
 if [ ! -d ${EBOOK_CLEAN_NAME} ]; then
@@ -20,18 +28,23 @@ if [ ! -d ${EBOOK_CLEAN_NAME} ]; then
 	exit 2
 fi
 
-# Create eBook again
+# Opet napraviti e-knjigu
 OLDPWD=`pwd`
 cd ${EBOOK_CLEAN_NAME}
 EBOOK_SERBIAN_NAME="${EBOOK_BASENAME}-cirilica"
+
+# mimetype mora biti prva datoteka
 zip -X -0 "${EBOOK_SERBIAN_NAME}".zip mimetype
+
+# Najveca kompresija (-9)
 zip -X -9 -r "${EBOOK_SERBIAN_NAME}".zip * -x mimetype "*~" "*.bak" "*.epub"
 mv "${EBOOK_SERBIAN_NAME}".zip "${EBOOK_SERBIAN_NAME}".epub
-# Delete everything EXCEPT newly-created eBook
+
+# Obisati sve OSIM novo-kreirane e-knjige
 find . ! '(' -name '*.epub' -o -name '.' -o -name '..' ')' -exec rm -rf {} \;
-# Validate newly create eBook
+
+# Provera novo-kreirane e-knjige
 if [ ! -z ${EPUBCHECK_VALIDATE} ]; then
-	EPUB_PATH=/opt/app/epubcheck-${EPUBCHECK_VERSION}/epubcheck-${EPUBCHECK_VERSION}.jar
 	if [ -f "${EPUB_PATH}" ]; then
 		echo "Provera elektronske knjige  ..."
 		java -jar ${EPUB_PATH} "${EBOOK_SERBIAN_NAME}".epub
@@ -46,7 +59,7 @@ if [ ! -z ${EPUBCHECK_VALIDATE} ]; then
 			mv "${EBOOK_SERBIAN_NAME}".epub "${EBOOK_SERBIAN_NAME}"-ur.epub
 		fi
 	else
-		echo EPUCheck JAR ${EPUB_PATH} ne postoji, izlazim ...
+		echo EPUCheck JAR '${EPUB_PATH}' ne postoji, izlazim ...
 		exit 3
 	fi
 else

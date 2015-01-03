@@ -1,12 +1,16 @@
 #!/bin/sh
 
-# Prepares ebook for translation
-# Input: epub file
+# Preslovljava e-knjigu
+# Ulazni parametar 1: Ime EPUB datoteke 
 
 # Change to anything else if you don't want
 # spaces to be replaced in HTML files
 REPLACE_HTML_SPACES=1
+
+# Podesiti putanje ukoliko se razlikuju na ovom sistemu
+# Put do komande "file"
 FILE_CMD=/usr/bin/file
+# Put do komande "tr"
 TR_CMD=/usr/bin/tr
 
 if [ $# -eq 0 ]; then
