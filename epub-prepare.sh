@@ -1,10 +1,10 @@
 #!/bin/sh
 
-# Prepares ebook for translation
-# Input: epub file
+# Priprema e-knjigu za preslovljavanje
+# Ulazni parametar 1: Ime EPUB datoteke 
 
 if [ $# -eq 0 ]; then
-	echo You must provide eBook name
+	echo Morate zadati naziv elektronske knjige.
 	exit 1
 fi
 
@@ -13,7 +13,7 @@ EBOOK_BASENAME=`basename "${EBOOK_NAME}" .epub`
 EBOOK_CLEAN_NAME=`echo "$EBOOK_BASENAME" | tr [[:upper:]] [[:lower:]] | tr [[:punct:]] '-' | tr [[:blank:]] '-' | tr -s '-'`-sr
 
 if [ -d ${EBOOK_CLEAN_NAME} ]; then
-	echo Directory ${EBOOK_CLEAN_NAME} already exists, exiting ...
+	echo Direktorijum ${EBOOK_CLEAN_NAME} vec postoji, izlazim ...
 	exit 2
 fi
 
@@ -24,4 +24,4 @@ cd ${EBOOK_CLEAN_NAME}
 unzip "${EBOOK_NAME}".zip
 rm -f "${EBOOK_NAME}".zip
 cd "${OLDPWD}"
-echo ${EBOOK_CLEAN_NAME} is ready for editing.
+echo E-knjiga ${EBOOK_CLEAN_NAME} spremna je za uredjivanje.

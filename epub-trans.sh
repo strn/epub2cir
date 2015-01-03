@@ -3,8 +3,8 @@
 # Preslovljava e-knjigu
 # Ulazni parametar 1: Ime EPUB datoteke 
 
-# Change to anything else if you don't want
-# spaces to be replaced in HTML files
+# Dodeliti bilo koju drugu vrednost (osim 1)
+# ako se ne zeli zamena praznina u HTML datotekama
 REPLACE_HTML_SPACES=1
 
 # Podesiti putanje ukoliko se razlikuju na ovom sistemu
@@ -65,35 +65,32 @@ function remove_spaces_in_file_names {
 function trans_xhtml {
 	find . \( -name "*ml" -o -name "*ML" -o -name "*htm" \) -type f -print0 | while read -d '' -r file
 	do
-		#${FILE_CMD} "${file}" | grep -i ": xml"
-		#if [ $? -eq 0 ]; then
-			# Get extension
-			file_ext_orig=${file##*.}
-			filext=`echo "$file_ext_orig" | tr [[:upper:]] [[:lower:]]`
-			if [ "${filext}" == "xml" ]; then
-				uniconv.py -i "${file}" -t xml -o "${file}".sr
-			else
-				uniconv.py -i "${file}" -t html -o "${file}".sr
-			fi
-			# Remove &#13;
-			sed -i 's/&#13;//g' "${file}".sr
-			# Remove empty lines
-			sed -i 's///g' "${file}".sr
-			sed -i '/^$/d' "${file}".sr
-			# Remove spaces - BE CAREFUL!!!
-			if [ "${REPLACE_HTML_SPACES}" -eq 1 ]; then
-				sed -i 's/%20/-/g' "${file}".sr
-			fi
-			# Zameni odredjene regularne izraze
-			regexconv.py -i "${file}".sr -o "${file}".regex
-			
-			filenosp=`echo "${file}" | ${TR_CMD} [[:blank:]] '-' | ${TR_CMD} -s '-'`
-			[ -f "${file}" ] && mv "${file}".regex "${filenosp}"
-			rm -f "${file}".sr
-			if [ "${filenosp}" != "${file}" ]; then
-				rm -f "${file}"
-			fi
-		#fi
+		# Uzmi prezime datoteke
+		file_ext_orig=${file##*.}
+		filext=`echo "$file_ext_orig" | tr [[:upper:]] [[:lower:]]`
+		if [ "${filext}" == "xml" ]; then
+			uniconv.py -i "${file}" -t xml -o "${file}".sr
+		else
+			uniconv.py -i "${file}" -t html -o "${file}".sr
+		fi
+		# Ukloni &#13;
+		sed -i 's/&#13;//g' "${file}".sr
+		# Ukloni prazne linije
+		sed -i 's///g' "${file}".sr
+		sed -i '/^$/d' "${file}".sr
+		# Ukloni praznine - OPREZ!!!
+		if [ "${REPLACE_HTML_SPACES}" -eq 1 ]; then
+			sed -i 's/%20/-/g' "${file}".sr
+		fi
+		# Zameni odredjene regularne izraze
+		regexconv.py -i "${file}".sr -o "${file}".regex
+		
+		filenosp=`echo "${file}" | ${TR_CMD} [[:blank:]] '-' | ${TR_CMD} -s '-'`
+		[ -f "${file}" ] && mv "${file}".regex "${filenosp}"
+		rm -f "${file}".sr
+		if [ "${filenosp}" != "${file}" ]; then
+			rm -f "${file}"
+		fi
 	done
 }
 
