@@ -75,14 +75,14 @@ OUTPUTFILE = None
 if __name__ == "__main__":
 	parser = OptionParser(usage=HELPTEXT)
 	parser.add_option("-i", "--input-file", action="store", type="string", dest="inputFile",
-		help="Input file containing text that needs to be converted")
+		help="Ulazna datoteka sa tekstom koji se preslovljava")
 	parser.add_option("-o", "--output-file", action="store", type="string", dest="outputFile",
 		help="Output file that will be created as a result of conversion")
 	parser.add_option("-u", "--input-enc", action="store", type="string", dest="inputEnc", default='utf-8',
 		help="Input encoding")
 	parser.add_option("-e", "--output-enc", action="store", type="string", dest="outputEnc", default='utf-8',
 		help="Output encoding")
-	parser.add_option("-f", "--force", action="store_false", dest="forceOverwrite", default=False,
+	parser.add_option("-f", "--force", action="store_true", dest="forceOverwrite", default=False,
 		help="Overwrite output file even if it exists")
 	parser.add_option("-d", "--direction", action="store", type="string", dest="direction", default='luc',
 		help="'luc' to convert Latin text in Cyrillic; 'cul' otherwise")
