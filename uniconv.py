@@ -9,26 +9,7 @@ from lxml import etree
 from optparse import OptionParser
 
 
-HELPTEXT = """
-Program se koristi na sledeci nacin:
-           
-uniconv.py  -i <ul_dat> -o <izl_dat> -u <ul_kod> -e <izl_kod>
-            -t <tip_dok> [-f] -d <smer> [-b]
-
-gde su:
-
-<ul_dat>    Ulazna datoteka koja se pretvara
-<izl_dat>   Izlazna datoteka u koju ce biti upisan rezultat pretvaranja
-<ul_kod>    Ulazni kodni raspored
-<izl_kod>   Izlazni kodni raspored
-<tip_dok>   Tip dokumenta (TXT, XML ili HTML)
-<smer>      Smer pretvaranja: luc = latinica-u-cirilicu,
-            cul = cirilica-u-latinicu
- 
--f          Nasilno prepisivanje izlazne datoteke, ukoliko ona postoji
--b          Pretvaranje teksts u posebnim tag-ovima, koji se mogu naci
-            u EPUB datotekama
-"""
+HELPTEXT = "uniconv.py <opcije>"
 
 LATLISTS = {
 	'utf-8' : [ u"Đ", u"Dž", u"DŽ", u"LJ", u"Lj", u"NJ", u"Nj", u"A", u"B", u"V", u"G", u"D", u"E", u"Ž", u"Z", u"I", u"J", u"K", u"L", u"M", u"N", u"O", u"P", u"R", u"S", u"T", u"Ć", u"U", u"F", u"H", u"C", u"Č", u"Š", u"a", u"b", u"v", u"g", u"dž", u"d", u"e", u"ž", u"z", u"i", u"j", u"k", u"lj", u"l", u"m", u"nj", u"n", u"o", u"p", u"r", u"s", u"t", u"ć", u"u", u"f", u"h", u"c", u"č", u"š", u"đ", u"Ð" ],
@@ -77,19 +58,19 @@ if __name__ == "__main__":
 	parser.add_option("-i", "--input-file", action="store", type="string", dest="inputFile",
 		help="Ulazna datoteka sa tekstom koji se preslovljava")
 	parser.add_option("-o", "--output-file", action="store", type="string", dest="outputFile",
-		help="Output file that will be created as a result of conversion")
+		help="Izlazna datoteka u koju ce biti upisan rezultat pretvaranja")
 	parser.add_option("-u", "--input-enc", action="store", type="string", dest="inputEnc", default='utf-8',
-		help="Input encoding")
+		help="Ulazni kodni raspored")
 	parser.add_option("-e", "--output-enc", action="store", type="string", dest="outputEnc", default='utf-8',
-		help="Output encoding")
+		help="Izlazni kodni raspored")
 	parser.add_option("-f", "--force", action="store_true", dest="forceOverwrite", default=False,
-		help="Overwrite output file even if it exists")
+		help="Nasilno prepisivanje izlazne datoteke, ukoliko ona postoji")
 	parser.add_option("-d", "--direction", action="store", type="string", dest="direction", default='luc',
-		help="'luc' to convert Latin text in Cyrillic; 'cul' otherwise")
+		help="Smer pretvaranja: luc = latinica-u-cirilicu, cul = cirilica-u-latinicu")
 	parser.add_option("-t", "--type", action="store", type="string", dest="documentType", default='txt',
-		help="Type of document that has to be converted")
+		help="Tip dokumenta koji se pretvara (TXT, XML ili HTML)")
 	parser.add_option("-b", "--ebook", action="store_true", dest="ebook", default=False,
-		help="Convert text in special tags found in eBook files")
+		help="Pretvaranje teksta u posebnim tag-ovima, koji se mogu naci u EPUB datotekama")
 	(options, args) = parser.parse_args()
 
 	# Determine how to open input and output file

@@ -22,12 +22,15 @@ function trans_toc {
 # Translate toc.ncx
 if [ -f toc.ncx ]; then 
 	echo "Pretvaram toc.ncx (pronadjen u $1) ..."
-	uniconv.py -i toc.ncx -t xml -b -o toc-sr.ncx
+	uniconv.py -i toc.ncx -t xml -b -o toc-roman.ncx
+	echo "  Obrada rimskih brojeva ..."
+	subroman.py -i toc-roman.ncx -o toc-sr.ncx
 	if [ "${REPLACE_HTML_SPACES}" -eq 1 ]; then
 		sed -i 's/%20/-/g' toc-sr.ncx
 	fi
 	if [ -f toc-sr.ncx ]; then
 		mv toc-sr.ncx toc.ncx
+		rm -f toc-roman.ncx
 	fi
 fi
 }

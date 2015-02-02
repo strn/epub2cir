@@ -8,7 +8,7 @@ import sys
 from optparse import OptionParser
 
 
-HELPTEXT = """subroman.py <opcije>"""
+HELPTEXT = "subroman.py <opcije>"
 
 ROMANDICT = {
 	u'ИИ'     : u'II',
@@ -30,22 +30,82 @@ ROMANDICT = {
 	u'XИX'    : u'XIX',
 	u'XXИ'    : u'XXI',
 	u'XXИИ'   : u'XXII',
-	u'XXИИИ'  : u'XXIII',
-	u'XXИВ'   : u'XXIV',
-	u'XXВ'    : u'XXV',
-	u'XXВИ'   : u'XXVI',
-	u'XXВИИ'  : u'XXVII',
-	u'XXВИИИ' : u'XXVIII',
-	u'XXИX'   : u'XXIX',
-	u'XXXИ'   : u'XXXI',
+	u'XXИИИ'    : u'XXIII',
+	u'XXИВ'     : u'XXIV',
+	u'XXВ'      : u'XXV',
+	u'XXВИ'     : u'XXVI',
+	u'XXВИИ'    : u'XXVII',
+	u'XXВИИИ'   : u'XXVIII',
+	u'XXИX'     : u'XXIX',
+	u'XXXИ'     : u'XXXI',
+	u'XXXИИ'    : u'XXXII',
+	u'XXXИИИ'   : u'XXXIII',
+	u'XXXИВ'    : u'XXXIV',
+	u'XXXВ'     : u'XXXV',
+	u'XXXВИ'    : u'XXXVI',
+	u'XXXВИИ'   : u'XXXVII',
+	u'XXXВИИИ'  : u'XXXVIII',
+	u'XXXИX'    : u'XXXIX',
+	u'XЛ'       : u'XL',
+	u'XЛИ'      : u'XLI',
+	u'XЛИИ'     : u'XLII',
+	u'XЛИИИ'    : u'XLIII',
+	u'XЛИВ'     : u'XLIV',
+	u'XЛВ'      : u'XLV',
+	u'XЛВИ'     : u'XLVI',
+	u'XЛВИИ'    : u'XLVII',
+	u'XЛВИИИ'   : u'XLVIII',
+	u'XЛИX'     : u'XLIX',
+	u'ЛИ'       : u'LI',
+	u'ЛИИ'      : u'LII',
+	u'ЛИИИ'     : u'LIII',
+	u'ЛИВ'      : u'LIV',
+	u'ЛВ'       : u'LV',
+	u'ЛВИ'      : u'LVI',
+	u'ЛВИИ'     : u'LVII',
+	u'ЛВИИИ'    : u'LVIII',
+	u'ЛИX'      : u'LIX',
+	u'ЛX'       : u'LX',
+	u'ЛXИ'      : u'LXI',
+	u'ЛXИИ'     : u'LXII',
+	u'ЛXИИИ'    : u'LXIII',
+	u'ЛXИВ'     : u'LXIV',
+	u'ЛXВ'      : u'LXV',
+	u'ЛXВИ'     : u'LXVI',
+	u'ЛXВИИ'    : u'LXVII',
+	u'ЛXВИИИ'   : u'LXVIII',
+	u'ЛXИX'     : u'LXIX',
+	u'ЛXX'      : u'LXX',
+	u'ЛXXИ'     : u'LXXI',
+	u'ЛXXИИ'    : u'LXXII',
+	u'ЛXXИИИ'   : u'LXXIII',
+	u'ЛXXИВ'    : u'LXXIV',
+	u'ЛXXВ'     : u'LXXV',
+	u'ЛXXВИ'    : u'LXXVI',
+	u'ЛXXВИИ'   : u'LXXVII',
+	u'ЛXXВИИИ'  : u'LXXVIII',
+	u'ЛXXИX'    : u'LXXIX',
+	u'ЛXXX'     : u'LXXX',
+	u'ЛXXXИ'    : u'LXXXI',
+	u'ЛXXXИИ'   : u'LXXXII',
+	u'ЛXXXИИИ'  : u'LXXXIII',
+	u'ЛXXXИВ'   : u'LXXXIV',
+	u'ЛXXXВ'    : u'LXXXV',
+	u'ЛXXXВИ'   : u'LXXXVI',
+	u'ЛXXXВИИ'  : u'LXXXVII',
+	u'ЛXXXВИИИ' : u'LXXXVIII',
+	u'ЛXXXИX'   : u'LXXXIX',
+	u'XЦ'       : u'XC',
+	u'XЦИ'      : u'XCI',
+	u'XЦИИ'     : u'XCII',
+	u'XЦИИИ'    : u'XCIII',
+	u'XЦИВ'     : u'XCIV',
+	u'XЦВ'      : u'XCV',
+	u'XЦВИ'     : u'XCVI',
+	u'XЦВИИ'    : u'XCVII',
+	u'XЦВИИИ'   : u'XCVIII', # 98
+	u'XЦИX'     : u'XCIX', # 99
 }
-
-
-def multiple_replacer(*key_values):
-	replace_dict = dict(key_values)
-	replacement_function = lambda match: replace_dict[match.group(0)]
-	pattern = re.compile("|".join([re.escape(k) for k, v in key_values]), re.M)
-	return lambda string: pattern.sub(replacement_function, string)
 
 
 if __name__ == "__main__":
@@ -53,7 +113,7 @@ if __name__ == "__main__":
 	parser.add_option("-i", "--input-file", action="store", type="string", dest="inputFile", default=sys.stdin,
 		help="Ulazna datoteka sa tekstom koji treba pretvoriti. Standardni ulaz ako nije navedeno.")
 	parser.add_option("-o", "--output-file", action="store", type="string", dest="outputFile", default=sys.stdout,
-		help="Ulazna datoteka u koju ce se smestiti rezultat pretvaranja. Standardni izlaz ako nije navedeno.")
+		help="Izlazna datoteka u koju ce se smestiti rezultat pretvaranja. Standardni izlaz ako nije navedeno.")
 	parser.add_option("-f", "--force", action="store_true", dest="forceOverwrite", default=False,
 		help="Prepisati izlaznu datoteku cak i ako ona postoji")
 	(opts, args) = parser.parse_args()
