@@ -12,6 +12,8 @@ REPLACE_HTML_SPACES=1
 FILE_CMD=/usr/bin/file
 # Put do komande "tr"
 TR_CMD=/usr/bin/tr
+ROMANS=../roman.txt
+LATINS=../lat.txt
 
 if [ $# -eq 0 ]; then
 	echo Morate zadati naziv elektronske knjige.
@@ -72,14 +74,17 @@ function trans_xhtml {
 		file_ext_orig=${file##*.}
 		filext=`echo "$file_ext_orig" | tr [[:upper:]] [[:lower:]]`
 		if [ "${filext}" == "xml" ]; then
-			uniconv.py -i "${file}" -t xml -o "${file}".sr
+			uniconv.py -i "${file}" -t xml -o "${file}".1
 		else
-			uniconv.py -i "${file}" -t html -o "${file}".sr
+			uniconv.py -i "${file}" -t html -o "${file}".1
 		fi
+		# Rimski brojevi
+		subroman.py -i "${file}".1 -o "${file}".sr
 		# Ukloni &#13;
 		sed -i 's/&#13;//g' "${file}".sr
 		# Ukloni prazne linije
-		sed -i 's///g' "${file}".sr
+		sed -i 's/
+//g' "${file}".sr
 		sed -i '/^$/d' "${file}".sr
 		# Ukloni praznine - OPREZ!!!
 		if [ "${REPLACE_HTML_SPACES}" -eq 1 ]; then
@@ -90,7 +95,7 @@ function trans_xhtml {
 		
 		filenosp=`echo "${file}" | ${TR_CMD} [[:blank:]] '-' | ${TR_CMD} -s '-'`
 		[ -f "${file}" ] && mv "${file}".regex "${filenosp}"
-		rm -f "${file}".sr
+		rm -f "${file}".sr "${file}".1
 		if [ "${filenosp}" != "${file}" ]; then
 			rm -f "${file}"
 		fi
@@ -114,6 +119,23 @@ trans_xhtml
 trans_toc ${EBOOK_CLEAN_NAME}
 trans_content ${EBOOK_CLEAN_NAME}
 
+> ${LATINS}
+
+# Provera da li je nesto preslovljeno, a nije trebalo ...
+find . \( -name "*ml" -o -name "*ML" -o -name "*htm" -o -name "*[Tt][Oo][Cc]" -o -name "*[Nn][Cc][Xx]" \) -type f -print -exec egrep -n '[X|x|Y|y|Q|q|W|w|ö|é|ä|à|ü|è|ß][АБВГДЂЕЖЗИЈКЛЉМНЉОПРСТЋУФХЦЧЏШабвгдђежзијклљмнњопрстћуфхцчџш]+' {} \; >> ${LATINS}
+
+> ${ROMANS}
+
+# Pronaci rimsko 4 ("IV") ili 6 ("VI") koji je mozda deo nekog naslova
+echo "Pronalazim rimsko IV ..."
+find . \( -name "*ml" -o -name "*ML" -o -name "*htm" -o -name "*[Tt][Oo][Cc]" -o -name "*[Nn][Cc][Xx]" \) -type f -print -exec egrep -n '[АБВГДЂЕЖЗИЈКЛЉМНЉОПРСТЋУФХЦЧЏШ]*IV[АБВГДЂЕЖЗИЈКЛЉМНЉОПРСТЋУФХЦЧЏШ]*' {} \; >> ${ROMANS}
+
+echo "Pronalazim rimsko VI ..."
+find . \( -name "*ml" -o -name "*ML" -o -name "*htm" -o -name "*[Tt][Oo][Cc]" -o -name "*[Nn][Cc][Xx]" \) -type f -print -exec egrep -n '[АБВГДЂЕЖЗИЈКЛЉМНЉОПРСТЋУФХЦЧЏШ]*VI[АБВГДЂЕЖЗИЈКЛЉМНЉОПРСТЋУФХЦЧЏШ]*' {} \; >> ${ROMANS}
+
+echo "Pronalazim rimsko I i V ..."
+find . \( -name "*ml" -o -name "*ML" -o -name "*htm" -o -name "*[Tt][Oo][Cc]" -o -name "*[Nn][Cc][Xx]" \) -type f -print -exec egrep -n '\s[I|И|В]\s' {} \; >> ${ROMANS}
+
 for dir in OEBPS OPS
 do
 	if [ -d $dir ]; then
@@ -126,3 +148,4 @@ done
 
 cd "${OLDPWD}"
 echo ${EBOOK_BASENAME} je preslovljena na cirilicu.
+echo Proveriti datoteke ${ROMANS} i ${LATINS}.

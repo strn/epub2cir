@@ -11,25 +11,24 @@ from optparse import OptionParser
 HELPTEXT = "subroman.py <opcije>"
 
 ROMANDICT = {
-	u'ИИ'     : u'II',
-	u'ИИИ'    : u'III',
-	u'ИВ'     : u'IV',
-	u'В'      : u'V',
-	u'ВИ'     : u'VI',
-	u'ВИИ'    : u'VII',
-	u'ВИИИ'   : u'VIII',
-	u'ИX'     : u'IX',
-	u'XИ'     : u'XI',
-	u'XИИ'    : u'XII',
-	u'XИИИ'   : u'XIII',
-	u'XИВ'    : u'XIV',
-	u'XВ'     : u'XV',
-	u'XВИ'    : u'XVI',
-	u'XВИИ'   : u'XVII',
-	u'XВИИИ'  : u'XVIII',
-	u'XИX'    : u'XIX',
-	u'XXИ'    : u'XXI',
-	u'XXИИ'   : u'XXII',
+	u'ИИ'       : u'II',
+	u'ИИИ'      : u'III',
+	u'ИВ'       : u'IV',
+	u'ВИ'       : u'VI',
+	u'ВИИ'      : u'VII',
+	u'ВИИИ'     : u'VIII',
+	u'ИX'       : u'IX',
+	u'XИ'       : u'XI',
+	u'XИИ'      : u'XII',
+	u'XИИИ'     : u'XIII',
+	u'XИВ'      : u'XIV',
+	u'XВ'       : u'XV',
+	u'XВИ'      : u'XVI',
+	u'XВИИ'     : u'XVII',
+	u'XВИИИ'    : u'XVIII',
+	u'XИX'      : u'XIX',
+	u'XXИ'      : u'XXI',
+	u'XXИИ'     : u'XXII',
 	u'XXИИИ'    : u'XXIII',
 	u'XXИВ'     : u'XXIV',
 	u'XXВ'      : u'XXV',
@@ -105,6 +104,14 @@ ROMANDICT = {
 	u'XЦВИИ'    : u'XCVII',
 	u'XЦВИИИ'   : u'XCVIII', # 98
 	u'XЦИX'     : u'XCIX', # 99
+	u'ЦИ'       : u'CI',
+	u'ЦИИ'      : u'CII',
+	u'ЦИИИ'     : u'CIII',
+	u'ЦИВ'      : u'CIV',
+	u'ЦВ'       : u'CV',
+	u'ЦВИ'      : u'CVI',
+	u'ЦВИИ'     : u'CVII',
+	u'ЦВИИИ'    : u'CVIII',
 }
 
 
@@ -141,7 +148,7 @@ if __name__ == "__main__":
 
 	for line in opts.inputFile:
 		convLine = compDict.sub(lambda m:orDict[m.group()], line)
-		opts.outputFile.write(convLine)
+		opts.outputFile.write(convLine.encode('utf-8'))
 
 
 	if opts.inputFile != sys.stdin:

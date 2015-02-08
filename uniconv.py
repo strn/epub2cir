@@ -13,8 +13,9 @@ HELPTEXT = "uniconv.py <opcije>"
 
 LATLISTS = {
 	'utf-8' : [ u"Đ", u"Dž", u"DŽ", u"LJ", u"Lj", u"NJ", u"Nj", u"A", u"B", u"V", u"G", u"D", u"E", u"Ž", u"Z", u"I", u"J", u"K", u"L", u"M", u"N", u"O", u"P", u"R", u"S", u"T", u"Ć", u"U", u"F", u"H", u"C", u"Č", u"Š", u"a", u"b", u"v", u"g", u"dž", u"d", u"e", u"ž", u"z", u"i", u"j", u"k", u"lj", u"l", u"m", u"nj", u"n", u"o", u"p", u"r", u"s", u"t", u"ć", u"u", u"f", u"h", u"c", u"č", u"š", u"đ", u"Ð" ],
-	'yuscii' : [ '', '', '', '', '', ''],
-	'tanjug' : [ '', '', '', '', '', '']
+	'yuscii' : [ '', '', '', '', '', '' ],
+	'tanjug' : [ '', '', '', '', '', '' ],
+	'ascii'  : [ 'D', 'Dz', 'DZ', 'LJ', 'Lj', 'NJ', 'Nj', 'A' ]
 }
 
 CIRUTFLIST = [ u"Ђ", u"Џ", u"Џ", u"Љ", u"Љ", u"Њ", u"Њ", u"А", u"Б", u"В", u"Г", u"Д", u"Е", u"Ж", u"З", u"И", u"Ј", u"К", u"Л", u"М", u"Н", u"О", u"П", u"Р", u"С", u"Т", u"Ћ", u"У", u"Ф", u"Х", u"Ц", u"Ч", u"Ш", u"а", u"б", u"в", u"г", u"џ", u"д", u"е", u"ж", u"з", u"и", u"ј", u"к", u"љ", u"л", u"м", u"њ", u"н", u"о", u"п", u"р", u"с", u"т", u"ћ", u"у", u"ф", u"х", u"ц", u"ч", u"ш", u"ђ", u"Ђ" ]
@@ -23,9 +24,9 @@ ENCODINGS = {
 	'cp1250'    : ['cp1250', 'windows-1250', 'cp1250p', 'win-1250', 'win1250'],
 	'cp1251'    : ['cp1251', 'windows-1251', 'win-1251', 'win1251'],
 	'cp852'     : ['cp852', 'ibm852'],
-	'iso8859_2' : ['iso-8859-2', 'latin2', 'l2', 'iso8859-2'],
-	'iso8859_5' : ['iso-8859-5', 'cyrillic', 'iso8859-5'],
-	'ascii'     : ['yuscii', 'tanjug', 'srpscii', 'qwyx', 'qwyx-de-luxe'],
+	'iso8859_2' : ['iso8859_2', 'iso-8859-2', 'latin2', 'l2', 'iso8859-2'],
+	'iso8859_5' : ['iso8859_5', 'iso-8859-5', 'cyrillic', 'iso8859-5'],
+	'ascii'     : ['ascii', 'yuscii', 'tanjug', 'srpscii', 'qwyx', 'qwyx-de-luxe'],
 	'utf-8'     : ['utf-8', 'utf8']
 }
 
@@ -55,9 +56,9 @@ OUTPUTFILE = None
 
 if __name__ == "__main__":
 	parser = OptionParser(usage=HELPTEXT)
-	parser.add_option("-i", "--input-file", action="store", type="string", dest="inputFile",
+	parser.add_option("-i", "--input-file", action="store", type="string", dest="inputFile", default='',
 		help="Ulazna datoteka sa tekstom koji se preslovljava")
-	parser.add_option("-o", "--output-file", action="store", type="string", dest="outputFile",
+	parser.add_option("-o", "--output-file", action="store", type="string", dest="outputFile", default='',
 		help="Izlazna datoteka u koju ce biti upisan rezultat pretvaranja")
 	parser.add_option("-u", "--input-enc", action="store", type="string", dest="inputEnc", default='utf-8',
 		help="Ulazni kodni raspored")
@@ -87,8 +88,8 @@ if __name__ == "__main__":
 	#print options
 	
 	# Check inputfile
-	if not options.inputFile:
-		INPUTFILE = sys.stdin
+	if options.inputFile == '':
+		INPUTFILE = codecs.getreader( options.inputEnc )( sys.stdin )
 	else:
 		try:
 			if options.documentType in ( 'txt' ):
@@ -99,21 +100,22 @@ if __name__ == "__main__":
 			sys.exit(1)
 	
 	# Check outputfile
-	if not options.outputFile:
-		OUTPUTFILE = sys.stdout
+	if options.outputFile == '':
+		OUTPUTFILE = codecs.getwriter( options.outputEnc )( sys.stdout )
 	else:
 		try:
 			OUTPUTFILE = open( options.outputFile, 'wb' )
 		except:
 			sys.exit(2)
-	
+
 	# Construct dictionary based on input and output encoding
 	if options.direction == 'luc':
 		convDict = dict(zip( LATLISTS[ options.inputEnc ], CIRUTFLIST))
 	else:
 		convDict = dict(zip( CIRUTFLIST, LATLISTS[ options.inputEnc ]))
-		
-	#print "%r".encode('utf-8') % convDict
+	
+	#print 'Convdict:'
+	#print "%r" % convDict
 	
 	# Compile dictionary
 	compDict = re.compile('|'.join(convDict))
@@ -121,7 +123,7 @@ if __name__ == "__main__":
 	if options.documentType == 'txt':
 		for line in INPUTFILE:
 			convLine = compDict.sub(lambda m:convDict[m.group()], line)
-			OUTPUTFILE.write(convLine)
+			OUTPUTFILE.write( convLine )
 			
 	elif options.documentType == 'html':
 		parser = etree.HTMLParser(remove_blank_text=True, remove_comments=True, encoding=options.inputEnc)
