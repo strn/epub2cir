@@ -83,8 +83,7 @@ function trans_xhtml {
 		# Ukloni &#13;
 		sed -i 's/&#13;//g' "${file}".sr
 		# Ukloni prazne linije
-		sed -i 's/
-//g' "${file}".sr
+		sed -i 's///g' "${file}".sr
 		sed -i '/^$/d' "${file}".sr
 		# Ukloni praznine - OPREZ!!!
 		if [ "${REPLACE_HTML_SPACES}" -eq 1 ]; then
