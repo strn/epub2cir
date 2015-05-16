@@ -34,7 +34,7 @@ ENCODINGS = {
 EBOOK_TAGS = ( 'text', 'creator', 'contributor', 'description', 'meta', 'publisher', 'subject', 'title' )
 EBOOK_TAGS_ATTRIBUTES = { 'meta' : { 'name' : ('calibre:series', 'calibre:title_sort') } }
 # HTML tags that can contain text requireing transliteration
-HTML_TAGS = ('a', 'div', 'h1', 'h2', 'h3', 'h4', 'h5', 'img', 'p', 'br', 'b', 'i', 'em', 'span', 'sub', 'sup', 'title', 'th', 'td')
+HTML_TAGS = ('a', 'div', 'h1', 'h2', 'h3', 'h4', 'h5', 'img', 'p', 'br', 'b', 'i', 'em', 'span', 'sub', 'sup', 'title', 'th', 'td', 'li', 'strong')
 GLOBAL_HTML4_ATTRS = ('accesskey', 'class', 'dir', 'id', 'lang', 'style', 'tabindex', 'title',)
 # Dictionary that specifies which attributes are supported by which HTML tags
 ALLOWED_ATTRIBS = {
