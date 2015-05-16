@@ -124,6 +124,8 @@ trans_content ${EBOOK_CLEAN_NAME}
 # Provera da li je nesto preslovljeno, a nije trebalo ...
 find . \( -name "*ml" -o -name "*ML" -o -name "*htm" -o -name "*[Tt][Oo][Cc]" -o -name "*[Nn][Cc][Xx]" \) -type f -print -exec egrep -n '[аа|бб|цц|дд|ее|фф|гг|хх|ии|лл|мм|нн|оо|пп|рр|сс|тт|уу|вв|зз|цх|гх|кх|пх|тх|X|x|Y|y|Q|q|W|w|ö|é|ä|à|ü|è|ß][АБВГДЂЕЖЗИЈКЛЉМНЉОПРСТЋУФХЦЧЏШабвгдђежзијклљмнњопрстћуфхцчџш]+' {} \; >> ${LATINS}
 
+# Testing for GitHub
+
 > ${ROMANS}
 
 # Pronaci rimsko 4 ("IV") ili 6 ("VI") koji je mozda deo nekog naslova
