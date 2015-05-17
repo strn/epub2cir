@@ -118,12 +118,34 @@ trans_xhtml
 trans_toc ${EBOOK_CLEAN_NAME}
 trans_content ${EBOOK_CLEAN_NAME}
 
-> ${LATINS}
+echo "Strana slova:" > ${LATINS}
+echo " " >> ${LATINS}
 
 # Provera da li je nesto preslovljeno, a nije trebalo ...
-find . \( -name "*ml" -o -name "*ML" -o -name "*htm" -o -name "*[Tt][Oo][Cc]" -o -name "*[Nn][Cc][Xx]" \) -type f -print -exec egrep -n '[X|x|Y|y|Q|q|W|w|ö|é|ä|à|ü|è|ß][АБВГДЂЕЖЗИЈКЛЉМНЉОПРСТЋУФХЦЧЏШабвгдђежзијклљмнњопрстћуфхцчџш]+' {} \; >> ${LATINS}
 
-find . \( -name "*ml" -o -name "*ML" -o -name "*htm" -o -name "*[Tt][Oo][Cc]" -o -name "*[Nn][Cc][Xx]" \) -type f -print -exec egrep -n 'аа|бб|цц|дд|ее|фф|гг|хх|ии|лл|мм|нн|оо|пп|рр|сс|тт|уу|вв|зз|цх|гх|кх|пх|тх[АБВГДЂЕЖЗИЈКЛЉМНЉОПРСТЋУФХЦЧЏШабвгдђежзијклљмнњопрстћуфхцчџш]+' {} \; >> ${LATINS}
+# Nesrpska :) slova
+find . \( -name "*ml" -o -name "*ML" -o -name "*htm" -o -name "*[Tt][Oo][Cc]" -o -name "*[Nn][Cc][Xx]" \) -type f -print -exec egrep -n '[XxYyQqWw]' {} \; >> ${LATINS}
+
+# Nemacka slova
+find . \( -name "*ml" -o -name "*ML" -o -name "*htm" -o -name "*[Tt][Oo][Cc]" -o -name "*[Nn][Cc][Xx]" \) -type f -print -exec egrep -n '[äöüßÄÖÜẞ]' {} \; >> ${LATINS}
+
+# Francuska slova, bez nemackih
+find . \( -name "*ml" -o -name "*ML" -o -name "*htm" -o -name "*[Tt][Oo][Cc]" -o -name "*[Nn][Cc][Xx]" \) -type f -print -exec egrep -n '[àâôéèëêïîçùûÿæœÀÂÔÉÈËÊÏÎŸÇÙÛÆŒ]' {} \; >> ${LATINS}
+
+# Poljska slova
+find . \( -name "*ml" -o -name "*ML" -o -name "*htm" -o -name "*[Tt][Oo][Cc]" -o -name "*[Nn][Cc][Xx]" \) -type f -print -exec egrep -n '[ąęłńóśźżĄĘŁŃÓŚŹŻ]' {} \; >> ${LATINS}
+
+# Italijanska slova, bez francuskih i nemackih
+find . \( -name "*ml" -o -name "*ML" -o -name "*htm" -o -name "*[Tt][Oo][Cc]" -o -name "*[Nn][Cc][Xx]" \) -type f -print -exec egrep -n '[ìíîòúÌÍÎÒÚ]' {} \; >> ${LATINS}
+
+# Spanska slova
+find . \( -name "*ml" -o -name "*ML" -o -name "*htm" -o -name "*[Tt][Oo][Cc]" -o -name "*[Nn][Cc][Xx]" \) -type f -print -exec egrep -n '[áñÁÑ]' {} \; >> ${LATINS}
+
+echo " " >> ${LATINS}
+echo "Moguce strane reci:" > ${LATINS}
+echo " " >> ${LATINS}
+
+find . \( -name "*ml" -o -name "*ML" -o -name "*htm" -o -name "*[Tt][Oo][Cc]" -o -name "*[Nn][Cc][Xx]" \) -type f -print -exec egrep -n 'аа|бб|цц|дд|ее|фф|гг|хх|ии|лл|мм|нн|оо|пп|рр|сс|тт|уу|вв|зз|цх|гх|кх|пх|сх|Тх' {} \; >> ${LATINS}
 
 > ${ROMANS}
 
