@@ -145,7 +145,7 @@ echo " " >> ${LATINS}
 echo "Moguce strane reci:" > ${LATINS}
 echo " " >> ${LATINS}
 
-find . \( -name "*ml" -o -name "*ML" -o -name "*htm" -o -name "*[Tt][Oo][Cc]" -o -name "*[Nn][Cc][Xx]" \) -type f -print -exec egrep -n 'аа|бб|цц|дд|ее|фф|гг|хх|ии|лл|мм|нн|оо|пп|рр|сс|тт|уу|вв|зз|цх|гх|кх|пх|сх|Тх' {} \; >> ${LATINS}
+find . \( -name "*ml" -o -name "*ML" -o -name "*htm" -o -name "*[Tt][Oo][Cc]" -o -name "*[Nn][Cc][Xx]" \) -type f -print -exec egrep -n 'аа|бб|цц|дд|ее|фф|гг|хх|ии|лл|мм|нн|оо|пп|рр|сс|тт|уу|вв|зз|цх|гх|кх|пх|сх[^в]|оу|Тх' {} \; >> ${LATINS}
 
 > ${ROMANS}
 
