@@ -13,12 +13,8 @@ HELPTEXT = "subroman.py <opcije>"
 ROMANDICT = {
 	u'ИИ'       : u'II',
 	u'ИИИ'      : u'III',
-	u'ИВ'       : u'IV',
-	u'ВИ'       : u'VI',
 	u'ВИИ'      : u'VII',
 	u'ВИИИ'     : u'VIII',
-	u'ИX'       : u'IX',
-	u'XИ'       : u'XI',
 	u'XИИ'      : u'XII',
 	u'XИИИ'     : u'XIII',
 	u'XИВ'      : u'XIV',
@@ -55,7 +51,6 @@ ROMANDICT = {
 	u'XЛВИИ'    : u'XLVII',
 	u'XЛВИИИ'   : u'XLVIII',
 	u'XЛИX'     : u'XLIX',
-	u'ЛИ'       : u'LI',
 	u'ЛИИ'      : u'LII',
 	u'ЛИИИ'     : u'LIII',
 	u'ЛИВ'      : u'LIV',
@@ -104,7 +99,6 @@ ROMANDICT = {
 	u'XЦВИИ'    : u'XCVII',
 	u'XЦВИИИ'   : u'XCVIII', # 98
 	u'XЦИX'     : u'XCIX', # 99
-	u'ЦИ'       : u'CI',
 	u'ЦИИ'      : u'CII',
 	u'ЦИИИ'     : u'CIII',
 	u'ЦИВ'      : u'CIV',

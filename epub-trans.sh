@@ -157,7 +157,7 @@ echo "Pronalazim rimsko VI ..."
 find . \( -name "*ml" -o -name "*ML" -o -name "*htm" -o -name "*[Tt][Oo][Cc]" -o -name "*[Nn][Cc][Xx]" \) -type f -print -exec egrep -n '[АБВГДЂЕЖЗИЈКЛЉМНЉОПРСТЋУФХЦЧЏШ]*VI[АБВГДЂЕЖЗИЈКЛЉМНЉОПРСТЋУФХЦЧЏШ]*' {} \; >> ${ROMANS}
 
 echo "Pronalazim rimsko I i V ..."
-find . \( -name "*ml" -o -name "*ML" -o -name "*htm" -o -name "*[Tt][Oo][Cc]" -o -name "*[Nn][Cc][Xx]" \) -type f -print -exec egrep -n '\s[I|И|В]\s' {} \; >> ${ROMANS}
+find . \( -name "*ml" -o -name "*ML" -o -name "*htm" -o -name "*[Tt][Oo][Cc]" -o -name "*[Nn][Cc][Xx]" \) -type f -print -exec egrep -n '[^\?\!\.]\s+[И|В]\s*' {} \; >> ${ROMANS}
 
 for dir in OEBPS OPS
 do
