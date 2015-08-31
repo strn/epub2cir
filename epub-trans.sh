@@ -147,6 +147,8 @@ echo " " >> ${LATINS}
 
 find . \( -name "*ml" -o -name "*ML" -o -name "*htm" -o -name "*[Tt][Oo][Cc]" -o -name "*[Nn][Cc][Xx]" \) -type f -print -exec egrep -n 'аа|бб|цц|дд|ее|фф|гг|хх|ии|лл|мм|нн|оо|пп|рр|сс|тт|уу|вв|зз|цх|гх|кх|пх|сх[^в]|оу|Тх|гли' {} \; >> ${LATINS}
 
+sed -i G ${LATINS}
+
 > ${ROMANS}
 
 # Pronaci rimsko 4 ("IV") ili 6 ("VI") koji je mozda deo nekog naslova
@@ -157,7 +159,9 @@ echo "Pronalazim rimsko VI ..."
 find . \( -name "*ml" -o -name "*ML" -o -name "*htm" -o -name "*[Tt][Oo][Cc]" -o -name "*[Nn][Cc][Xx]" \) -type f -print -exec egrep -n '[АБВГДЂЕЖЗИЈКЛЉМНЉОПРСТЋУФХЦЧЏШ]*VI[АБВГДЂЕЖЗИЈКЛЉМНЉОПРСТЋУФХЦЧЏШ]*' {} \; >> ${ROMANS}
 
 echo "Pronalazim rimsko I i V ..."
-find . \( -name "*ml" -o -name "*ML" -o -name "*htm" -o -name "*[Tt][Oo][Cc]" -o -name "*[Nn][Cc][Xx]" \) -type f -print -exec egrep -n '[^\?\!\.]\s+[И|В]\s*' {} \; >> ${ROMANS}
+find . \( -name "*ml" -o -name "*ML" -o -name "*htm" -o -name "*[Tt][Oo][Cc]" -o -name "*[Nn][Cc][Xx]" \) -type f -print -exec egrep -n '[^“\?\!\.]\s+[И|В]\s+' {} \; >> ${ROMANS}
+
+sed -i G ${ROMANS}
 
 for dir in OEBPS OPS
 do
