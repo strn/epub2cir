@@ -8,14 +8,11 @@ if [ $# -eq 0 ]; then
 	exit 1
 fi
 
-# Postaviti na "1" ako se zeli provera novo-kreirane EPUB datoteke, inace 0
-EPUBCHECK_VALIDATE=1
-
 # Verzija programa EPUB
 EPUBCHECK_VERSION=3.0.1
 
 # Lokacija Epubcheck JAR datoteke (podesiti za vas sistem)
-EPUB_PATH=/opt/app/epubcheck-${EPUBCHECK_VERSION}/epubcheck-${EPUBCHECK_VERSION}.jar
+EPUB_PATH=/opt/app/e/epubcheck-${EPUBCHECK_VERSION}/epubcheck-${EPUBCHECK_VERSION}.jar
 
 # Uzeti parametar
 EBOOK_NAME=$1
@@ -44,7 +41,8 @@ mv "${EBOOK_SERBIAN_NAME}".zip "${EBOOK_SERBIAN_NAME}".epub
 find . ! '(' -name '*.epub' -o -name '.' -o -name '..' ')' -exec rm -rf {} \;
 
 # Provera novo-kreirane e-knjige
-if [ ! -z ${EPUBCHECK_VALIDATE} ]; then
+# Ako je promenljiva definisana, provera knjige se ne radi
+if [ -z ${EPUBCHECK_VALIDATE} ]; then
 	if [ -f "${EPUB_PATH}" ]; then
 		echo "Provera elektronske knjige  ..."
 		java -jar ${EPUB_PATH} "${EBOOK_SERBIAN_NAME}".epub
