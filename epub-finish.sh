@@ -9,10 +9,10 @@ if [ $# -eq 0 ]; then
 fi
 
 # Verzija programa EPUB
-EPUBCHECK_VERSION=3.0.1
+EPUBCHECK_VERSION=4.0.2
 
 # Lokacija Epubcheck JAR datoteke (podesiti za vas sistem)
-EPUB_PATH=/opt/app/e/epubcheck-${EPUBCHECK_VERSION}/epubcheck-${EPUBCHECK_VERSION}.jar
+EPUB_PATH=/opt/app/e/epubcheck-${EPUBCHECK_VERSION}/epubcheck.jar
 
 # Uzeti parametar
 EBOOK_NAME=$1
@@ -28,14 +28,15 @@ fi
 # Opet napraviti e-knjigu
 OLDPWD=`pwd`
 cd ${EBOOK_CLEAN_NAME}
-EBOOK_SERBIAN_NAME="${EBOOK_BASENAME}-cirilica"
+EBOOK_SERBIAN_NAME="${EBOOK_BASENAME}-cyr"
+EBOOK_SERBIAN_TMP_NAME=${EBOOK_SERBIAN_NAME}-tmp
 
 # mimetype mora biti prva datoteka
 zip -X -0 "${EBOOK_SERBIAN_NAME}".zip mimetype
 
 # Najveca kompresija (-9)
 zip -X -9 -r "${EBOOK_SERBIAN_NAME}".zip * -x mimetype "*~" "*.bak" "*.epub"
-mv "${EBOOK_SERBIAN_NAME}".zip "${EBOOK_SERBIAN_NAME}".epub
+mv "${EBOOK_SERBIAN_NAME}".zip "${EBOOK_SERBIAN_TMP_NAME}".epub
 
 # Obisati sve OSIM novo-kreirane e-knjige
 find . ! '(' -name '*.epub' -o -name '.' -o -name '..' ')' -exec rm -rf {} \;
@@ -45,16 +46,16 @@ find . ! '(' -name '*.epub' -o -name '.' -o -name '..' ')' -exec rm -rf {} \;
 if [ -z ${EPUBCHECK_VALIDATE} ]; then
 	if [ -f "${EPUB_PATH}" ]; then
 		echo "Provera elektronske knjige  ..."
-		java -jar ${EPUB_PATH} "${EBOOK_SERBIAN_NAME}".epub
+		java -jar ${EPUB_PATH} "${EBOOK_SERBIAN_TMP_NAME}".epub
 		RETVAL=$?
 		echo
 		if [ ${RETVAL} -ne 0 ]; then
 			echo "Provera nije uspela, knjiga je ostavljena otpakovana."
-			unzip -qq "${EBOOK_SERBIAN_NAME}".epub
-			rm -f "${EBOOK_SERBIAN_NAME}".epub
+			unzip -qq "${EBOOK_SERBIAN_TMP_NAME}".epub
+			rm -f "${EBOOK_SERBIAN_TMP_NAME}".epub
 		else
-			echo Knjiga "${EBOOK_SERBIAN_NAME}"-ur.epub je spremna u direktorijumu "${EBOOK_CLEAN_NAME}".
-			mv "${EBOOK_SERBIAN_NAME}".epub "${EBOOK_SERBIAN_NAME}"-ur.epub
+			echo Knjiga "${EBOOK_SERBIAN_NAME}".epub je spremna u direktorijumu "${EBOOK_CLEAN_NAME}".
+			mv "${EBOOK_SERBIAN_TMP_NAME}".epub "${EBOOK_SERBIAN_NAME}".epub
 		fi
 	else
 		echo EPUCheck JAR '${EPUB_PATH}' ne postoji, izlazim ...
